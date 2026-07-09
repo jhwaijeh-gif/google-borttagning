@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Så gömmer du dig från Google · Radera dig från nätet | @joudgor</title>
+<meta name="description" content="Google har ett gratis verktyg som gömmer enskilda träffar om dig i sökresultaten, även från de stora svenska söktjänsterna. Så funkar det, kort och rakt.">
+<meta property="og:title" content="Så gömmer du dig från Google">
+<meta property="og:description" content="Googles verktyg gömmer träffar om dig i sökresultaten, även från de stora svenska söktjänsterna.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F6F3; --bg-alt:#FBFBFA; --surface:#FFFFFF; --border:#EAEAEA; --border-soft:rgba(0,0,0,0.06);
+    --ink:#1F1D1B; --text:#3D3A36; --muted:#787774; --cta:#141210;
+    --red-bg:#FDEBEC; --red-tx:#9F2F2D;
+    --blue-bg:#E1F3FE; --blue-tx:#1F6C9F;
+    --green-bg:#EDF3EC; --green-tx:#346538;
+    --yellow-bg:#FBF3DB; --yellow-tx:#956400;
+    --cloth-bg:#FBECE1; --cloth-tx:#B4481F;
+    --brand:#1A6BFF; --brand-dk:#1457E0;
+    --logo:'Syne','Manrope',sans-serif;
+    --serif:'Playfair Display',Georgia,serif;
+    --sans:'Manrope','Helvetica Neue',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono','SF Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;background:var(--bg);}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:400;line-height:1.6;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px;}
+  .narrow{max-width:780px;}
+  .ambient{position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(620px 420px at 78% -6%, rgba(173,140,90,0.05), rgba(173,140,90,0) 70%);}
+  .page{position:relative;z-index:1;}
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(247,246,243,0.72);
+    backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid var(--border);}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px;}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;transition:opacity .2s ease;}
+  .brand:hover{opacity:.65;}
+  .brand .mk{width:26px;height:26px;border-radius:7px;background:#1A6BFF;display:flex;align-items:center;justify-content:center;}
+  .brand .mk span{color:#fff;font-family:var(--logo);font-weight:800;font-size:15px;line-height:1;}
+  .brand b{font-family:var(--logo);font-weight:800;font-size:17px;color:var(--ink);letter-spacing:-0.01em;}
+  nav .handle{font-family:var(--mono);font-weight:500;font-size:12.5px;color:var(--muted);letter-spacing:0.02em;}
+
+  header.hero{padding:96px 0 36px;}
+  .eyebrow{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);}
+  h1{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:clamp(38px,6vw,66px);line-height:1.04;letter-spacing:-0.03em;margin:22px 0 0;}
+  h1 em{font-style:italic;font-weight:500;color:var(--cloth-tx);}
+  .lede{font-size:19px;line-height:1.65;color:var(--text);margin-top:26px;max-width:680px;}
+  .lede b{color:var(--ink);font-weight:600;}
+
+  .fmt{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px;}
+  .fmt span{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:0.04em;
+    color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:9999px;padding:7px 14px;}
+
+  section{padding:64px 0;}
+  .sec-head{margin-bottom:8px;}
+  h2{font-family:var(--serif);font-weight:600;color:var(--ink);font-size:clamp(27px,3.5vw,38px);line-height:1.1;letter-spacing:-0.02em;}
+  .sec-sub{color:var(--muted);font-size:16px;margin-top:10px;max-width:660px;}
+
+  .handoff{margin-top:22px;display:grid;gap:12px;}
+  .ho{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:grid;grid-template-columns:38px 1fr;gap:15px;align-items:start;}
+  .ho .ic{width:38px;height:38px;border-radius:10px;background:var(--cloth-bg);color:var(--cloth-tx);display:flex;align-items:center;justify-content:center;}
+  .ho .ic svg{width:20px;height:20px;}
+  .ho b{color:var(--ink);font-weight:600;font-size:16px;display:block;margin-bottom:4px;}
+  .ho span{font-size:15px;color:var(--text);line-height:1.6;}
+
+  .note{margin-top:20px;font-size:14.5px;color:var(--text);line-height:1.55;background:var(--yellow-bg);
+    border:1px solid rgba(149,100,0,0.14);border-radius:10px;padding:14px 16px;display:flex;gap:11px;}
+  .note .lb{flex:0 0 auto;color:var(--yellow-tx);}
+  .note .lb svg{width:18px;height:18px;display:block;}
+  .note b{color:var(--yellow-tx);font-weight:600;}
+
+  .action{margin-top:26px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;}
+  .btn-tool{display:inline-flex;align-items:center;gap:10px;background:var(--cta);color:#fff;text-decoration:none;
+    font-family:var(--sans);font-weight:600;font-size:15px;padding:14px 24px;border-radius:8px;transition:background .2s ease,transform .12s ease;}
+  .btn-tool:hover{background:#332e29;}
+  .btn-tool:active{transform:scale(0.98);}
+  .btn-tool svg{width:17px;height:17px;}
+  .action .hint{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:0.02em;}
+  .action .hint a{color:var(--brand-dk);text-decoration:none;border-bottom:1px solid rgba(20,87,224,0.28);}
+
+  .cta{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:56px 48px;text-align:center;}
+  .cta h2{font-size:clamp(25px,3.3vw,35px);}
+  .cta p{color:var(--muted);font-size:16px;margin:14px auto 0;max-width:480px;}
+  .btn{display:inline-block;margin-top:28px;background:var(--cta);color:#fff;text-decoration:none;font-family:var(--sans);
+    font-weight:600;font-size:15px;padding:14px 26px;border-radius:6px;transition:background .2s ease,transform .12s ease;}
+  .btn:hover{background:#332e29;}
+  .btn:active{transform:scale(0.98);}
+  .cta-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:14px;}
+  .cta-btns .btn{margin-top:0;}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--border);}
+  .btn-ghost:hover{background:var(--bg);}
+  .btn-book{display:inline-flex;align-items:center;gap:9px;background:var(--brand);color:#fff;}
+  .btn-book:hover{background:var(--brand-dk);}
+  .btn-book svg{width:18px;height:18px;}
+  .cta-or{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:0.04em;margin-top:18px;}
+
+  .float-cta{position:fixed;right:22px;bottom:22px;z-index:60;max-width:312px;
+    background:var(--surface);border:1.5px solid var(--brand);
+    border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,0.10);transition:transform .14s ease,box-shadow .2s ease;}
+  .float-cta:hover{box-shadow:0 10px 30px rgba(0,0,0,0.14);transform:translateY(-2px);}
+  .fc-link{display:flex;align-items:center;gap:14px;text-decoration:none;padding:14px 16px;}
+  .fc-text{display:flex;flex-direction:column;line-height:1.3;}
+  .fc-text b{font-size:14px;color:var(--ink);font-weight:700;}
+  .fc-text span{font-size:12.5px;color:var(--muted);margin-top:2px;}
+  .fc-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-weight:600;
+    font-size:11px;color:#fff;background:var(--brand);border-radius:9999px;padding:8px 12px;white-space:nowrap;}
+  .fc-btn svg{width:13px;height:13px;}
+  .fc-close{position:absolute;top:-9px;right:-9px;width:22px;height:22px;border-radius:50%;border:1px solid var(--border);
+    background:var(--surface);color:var(--muted);font-size:14px;line-height:1;cursor:pointer;display:flex;
+    align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,0.12);}
+  .fc-close:hover{color:var(--ink);}
+  @media(max-width:820px){
+    .float-cta{right:12px;left:12px;bottom:12px;max-width:none;}
+    .fc-link{justify-content:space-between;padding:12px 14px;}
+    .fc-text b{font-size:13.5px;}
+  }
+
+  footer{border-top:1px solid var(--border);padding:34px 0 56px;margin-top:80px;}
+  footer .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+  footer .h{font-family:var(--mono);font-weight:600;font-size:13px;color:var(--ink);letter-spacing:0.02em;}
+  footer .p{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:0.04em;}
+
+  .reveal{opacity:0;transform:translateY(12px);}
+  .reveal.in{opacity:1;transform:none;transition:opacity .6s cubic-bezier(0.16,1,0.3,1),transform .6s cubic-bezier(0.16,1,0.3,1);}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;}}
+
+  @media(max-width:820px){
+    .wrap{padding:0 22px;}
+    section{padding:52px 0;}
+    header.hero{padding:64px 0 24px;}
+    .cta{padding:40px 24px;}
+  }
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="page">
+
+  <nav>
+    <div class="wrap">
+      <a class="brand" href="https://ikapp.ai" target="_blank" rel="noopener">
+        <div class="mk"><span>I</span></div>
+        <b>Ikapp</b>
+      </a>
+      <div class="handle">@joudgor</div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow reveal">Radera dig från nätet · Google-delen</div>
+      <h1 class="reveal">Så gömmer du dig <em>från Google</em></h1>
+      <p class="lede reveal">Google har ett gratis verktyg som gömmer enskilda träffar om dig i sökresultaten. Det når även de stora svenska söktjänsterna. Här är vad det gör.</p>
+      <div class="fmt reveal">
+        <span>Googles verktyg</span>
+        <span>Gratis</span>
+        <span>Funkar i Sverige</span>
+      </div>
+    </div>
+  </header>
+
+  <section class="wrap narrow" style="padding-top:8px;margin:0 auto;">
+    <div class="sec-head reveal">
+      <h2>Vad verktyget gör</h2>
+    </div>
+
+    <div class="handoff">
+
+      <div class="ho reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg></div>
+        <div><b>Gömmer enskilda träffar</b><span>Du väljer om en träff ska gömmas helt, för alla sökningar, eller delvis, bara när någon söker på ditt namn.</span></div>
+      </div>
+
+      <div class="ho reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+        <div><b>Funkar på de stora svenska söktjänsterna</b><span>Ratsit, MrKoll, Hitta.se, Merinfo och Eniro. De sajterna går inte att radera rakt av, de skyddas av yttrandefriheten (utgivningsbevis). Men via EU:s regler kan du få Google att sluta visa dem.</span></div>
+      </div>
+
+      <div class="ho reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+        <div><b>Gömmer dem från Google</b><span>När din begäran godkänns slutar träffen dyka upp när någon googlar dig.</span></div>
+      </div>
+
+    </div>
+
+    <div class="action reveal">
+      <a class="btn-tool" href="https://myactivity.google.com/results-about-you" target="_blank" rel="noopener">Öppna Googles verktyg <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg></a>
+      <div class="hint">Vill du läsa mer? <a href="https://support.google.com/websearch/answer/12719076" target="_blank" rel="noopener">Googles egen guide</a></div>
+    </div>
+
+    <div class="note reveal"><span class="lb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span><span>Kör om det här <b>var par månad</b>. Nya träffar dyker upp med tiden, så en snabb koll då och då håller dig borta.</span></div>
+  </section>
+
+  <!-- CTA -->
+  <section id="kontakt" style="padding-top:8px">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2>Vill du lära dig AI, eller veta om ditt företag kan använda det?</h2>
+        <p>Jag hjälper dig komma igång, från första frågan till färdig rutin. Hör av dig så tar vi reda på om och var AI passar för dig eller ditt företag.</p>
+        <a class="btn btn-book" href="https://cal.com/jude-hwaijeh-oix30w/strategisamtal" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Boka ett strategisamtal</a>
+        <div class="cta-or">eller hör av dig direkt</div>
+        <div class="cta-btns">
+          <a class="btn btn-ghost" href="mailto:jude@ikapp.ai">Mejla jude@ikapp.ai</a>
+          <a class="btn btn-ghost" href="https://instagram.com/joudgor">Skriv på Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="h">@joudgor</div>
+      <div class="p">powered by Ikapp.ai</div>
+    </div>
+  </footer>
+
+  <div class="float-cta" id="floatCta">
+    <button class="fc-close" type="button" aria-label="Stäng">&times;</button>
+    <a class="fc-link" href="#kontakt">
+      <span class="fc-text">
+        <b>Kan ditt företag använda AI?</b>
+        <span>Eller vill du lära dig själv?</span>
+      </span>
+      <span class="fc-btn">Ta reda på det <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </div>
+
+</div>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});}
+    else{
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      },{threshold:0, rootMargin:'0px 0px 12% 0px'});
+      els.forEach(function(e){io.observe(e);});
+    }
+    var fc=document.getElementById('floatCta');
+    if(fc){ var fcc=fc.querySelector('.fc-close'); if(fcc){ fcc.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); fc.style.display='none'; }); } }
+  })();
+</script>
+</body>
+</html>
