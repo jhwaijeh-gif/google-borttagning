@@ -83,6 +83,12 @@
   .action .hint{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:0.02em;}
   .action .hint a{color:var(--brand-dk);text-decoration:none;border-bottom:1px solid rgba(20,87,224,0.28);}
 
+  .dontlist{margin-top:30px;}
+  .dontlist .dl-h{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+  .dontlist ul{list-style:none;display:grid;gap:9px;}
+  .dontlist li{position:relative;padding-left:22px;font-size:15px;color:var(--text);line-height:1.55;}
+  .dontlist li:before{content:"";position:absolute;left:2px;top:11px;width:9px;height:2px;border-radius:2px;background:var(--muted);}
+
   .cta{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:56px 48px;text-align:center;}
   .cta h2{font-size:clamp(25px,3.3vw,35px);}
   .cta p{color:var(--muted);font-size:16px;margin:14px auto 0;max-width:480px;}
@@ -186,6 +192,15 @@
         <div><b>Gömmer dem från Google</b><span>När din begäran godkänns slutar träffen dyka upp när någon googlar dig.</span></div>
       </div>
 
+    </div>
+
+    <div class="dontlist reveal">
+      <div class="dl-h">Vad den inte gör</div>
+      <ul>
+        <li>Raderar inte sidan. Uppgifterna finns kvar på källsajten.</li>
+        <li>Gäller bara Google, inte Bing och andra sökmotorer.</li>
+        <li>Google granskar varje begäran och kan säga nej.</li>
+      </ul>
     </div>
 
     <div class="action reveal">
